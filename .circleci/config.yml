@@ -1,7 +1,4 @@
-version: 2.1
-orbs:
-  eb: circleci/aws-elastic-beanstalk@1.0.0
-  node: circleci/node@3.0.0
+version: 2
 jobs:
   deploy:
     working_directory: ~/app
@@ -9,6 +6,7 @@ jobs:
       - image: circleci/ruby:2.4.3
     steps:
       - checkout
+
       - run:
           name: Installing deployment dependencies
           working_directory: /
@@ -20,12 +18,3 @@ jobs:
       - run:
           name: Deploying
           command: eb deploy $CIRCLE_BRANCH-my-application
-workflows:
-  build:
-    jobs:
-      - deploy:
-          filters:
-            branches:
-              only:
-                - circleci-project-setup
-
