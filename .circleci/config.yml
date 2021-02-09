@@ -1,20 +1,18 @@
 version: '2.1'
 orbs:
   eb: circleci/aws-elastic-beanstalk@1.0.0
-jobs:
-  eb-demo:
-    docker:
-      - image: 'cimg/base:stable'
-    steps:
-      - checkout
-      - eb/setup
-      - run:
-          command: |
-            eb create my-environment
-            eb status
-          name: You may now use the EB CLI within this job
+  node: circleci/node@4.1.0
 workflows:
   elastic-beanstalk-workflow:
     jobs:
-      - eb-demo
-      
+      - node/test
+      - eb/deploy:
+          context: aws-creds
+          environment-name: my-app
+          filters:
+            branches:
+              only:
+                - circleci-project-setup
+          label: version-<<pipeline.number>>
+          requires:
+            - node/test
