@@ -12,6 +12,6 @@ workflows:
             branches:
               only:
                 - circleci-project-setup
-          label: version-<<pipeline.number>>
+          label: version-1
           requires:
             - node/test
